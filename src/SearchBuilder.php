@@ -30,11 +30,10 @@ class SearchBuilder extends EloquentBuilder
     {
         $searchableType = $this->model::class;
         $searchableKeyName = $this->model->getKeyName();
-        $cacheKey = $searchableType.$this->searchQuery;
         $cache = config('larasearch.cache') ? Cache::tags($searchableType) : null;
 
-        if ($cache && $cache->has($cacheKey)) {
-            $this->cachedData = $cache->get($cacheKey);
+        if ($cache && $cache->has($this->searchQuery)) {
+            $this->cachedData = $cache->get($this->searchQuery);
 
             return $this;
         }
@@ -49,7 +48,7 @@ class SearchBuilder extends EloquentBuilder
         $builder = $searchableType::whereIn($searchableKeyName, $modelIds);
 
         if ($cache) {
-            $cache->put($cacheKey, $builder->get());
+            $cache->put($this->searchQuery, $builder->get());
         }
 
         return $builder;
@@ -57,7 +56,7 @@ class SearchBuilder extends EloquentBuilder
 
     public function get($columns = ['*'])
     {
-        echo 'fram cache';
+        echo 'from cache';
 
         return $this->cachedData;
     }
