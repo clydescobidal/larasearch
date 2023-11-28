@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/clydescobidal/larasearch.svg?style=flat-square)](https://packagist.org/packages/clydescobidal/larasearch)
 [![Total Downloads](https://img.shields.io/packagist/dt/clydescobidal/larasearch.svg?style=flat-square)](https://packagist.org/packages/clydescobidal/larasearch)
-![GitHub Actions](https://github.com/clydescobidal/larasearch/actions/workflows/build.yaml/badge.svg)
+![GitHub Actions](https://github.com/clydescobidal/larasearch/actions/workflows/main.yaml/badge.svg)
 
 The goal of this Laravel package is to offer fast FULLTEXT indexed searches. This is only relevant if you wish to include a basic search feature in your project. However, if your project has a large amount of data that needs to be searched and is frequently used, search engines like Typesense, ElasticSearch, Algolia, and similar ones are more appropriate.
 
