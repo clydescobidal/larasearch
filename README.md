@@ -1,11 +1,10 @@
-<img src="https://raw.githubusercontent.com/clydescobidal/larasearch/main/art/bannercard.webp" />
+<img src="https://github.com/clydescobidal/larasearch/art/socialcard.webp" />
 
 # Larasearch
 
-[![Latest Stable Version](http://poser.pugx.org/clydescobidal/larasearch/v)](https://packagist.org/packages/clydescobidal/larasearch)
-[![Total Downloads](http://poser.pugx.org/clydescobidal/larasearch/downloads)](https://packagist.org/packages/clydescobidal/larasearch)
-[![License](http://poser.pugx.org/clydescobidal/larasearch/license)](https://packagist.org/packages/clydescobidal/larasearch)
-![GitHub Actions](https://github.com/clydescobidal/larasearch/actions/workflows/run-tests.yaml/badge.svg)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/clydescobidal/larasearch.svg?style=flat-square)](https://packagist.org/packages/clydescobidal/larasearch)
+[![Total Downloads](https://img.shields.io/packagist/dt/clydescobidal/larasearch.svg?style=flat-square)](https://packagist.org/packages/clydescobidal/larasearch)
+![GitHub Actions](https://github.com/clydescobidal/larasearch/actions/workflows/main.yaml/badge.svg)
 
 The goal of this Laravel package is to offer fast FULLTEXT indexed searches. This is only relevant if you wish to include a basic search feature in your project. However, if your project has a large amount of data that needs to be searched and is frequently used, search engines like Typesense, ElasticSearch, Algolia, and similar ones are more appropriate.
 
@@ -35,7 +34,7 @@ php artisan migrate
 ```
 
 ## Usage
-Add the `Clydescobidal\Larasearch\Searchable` trait to the model you would like to make searchable:
+Add the `Clydescobidal\Larasearch\Searchable` trait to the model you would like to make searchable. Models that are using this trait will be indexed in the searchable table whenever changes are made on the model.
 ```php
 <?php
  
@@ -50,6 +49,32 @@ class Post extends Model
 }
 ```
 
+Search for posts and chain query builder methods as normal:
+```php
+<?php
+
+$post= Post::search('my post title')->get();
+$posts = Post::search('search posts')->paginate();
+```
+
+Make model searchable or unsearchable:
+```php
+<?php
+
+$post= Post::find(1);
+$post->searchable(); // Adds this model to the search index
+
+$post= Post::find(2);
+$post->unsearchable(); // Removes this model from the search index
+```
+
+### Config
+| Property      | Type |  Default  |  Description |
+| ----------- |  ---- | ---| ---
+| table    |string|   searchable       | The table where the searchable indices are stored
+| cache   |boolean| true       | Enable caching of results
+| queue   |boolean| true        | Run searchable syncs in queue (recommended)
+
 
 ### Changelog
 
@@ -58,6 +83,10 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+### Security
+
+If you discover any security related issues, please email cleidoscope@gmail.com instead of using the issue tracker.
 
 ## Credits
 
