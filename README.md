@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/clydescobidal/larasearch/main/art/socialcard.webp" />
+<img src="https://raw.githubusercontent.com/clydescobidal/larasearch/main/art/bannercard.webp" />
 
 # Larasearch
 
