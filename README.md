@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/clydescobidal/larasearch/main/art/socialcard.webp" />
+
 # Larasearch
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/clydescobidal/larasearch.svg?style=flat-square)](https://packagist.org/packages/clydescobidal/larasearch)
