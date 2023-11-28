@@ -2,36 +2,32 @@
 
 namespace Clydescobidal\Larasearch;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Model;
+use Clydescobidal\Larasearch\Jobs\MakeSearchable;
+use Clydescobidal\Larasearch\Jobs\MakeUnsearchable;
 
 class SyncEngine
 {
-    public static function makeSearchable(Model $model)
+    public static function makeSearchable($model)
     {
-        $searchableType = $model::class;
-        $searchableId = $model->getKey();
+        $queue = config('larasearch.queue');
+        $searchableJob = new MakeSearchable($model);
 
-        // invalidate cache
-        $cache = config('larasearch.cache');
-
-        if ($cache) {
-            Cache::tags($searchableType)->flush();
-            // php artisan cache:clear --tags=$searchableType
+        if ($queue) {
+            dispatch($searchableJob);
+        } else {
+            $searchableJob->handle();
         }
+    }
 
-        foreach ($model->toSearchableArray() as $column => $value) {
-            DB::table(config('larasearch.table'))->updateOrInsert(
-                [
-                    'searchable_type' => $searchableType,
-                    'searchable_id' => $searchableId,
-                    'column' => $column,
-                ],
-                [
-                    'value' => $value,
-                ]
-            );
+    public static function makeUnsearchable($model)
+    {
+        $queue = config('larasearch.queue');
+        $unsearchableJob = new MakeUnsearchable($model);
+
+        if ($queue) {
+            dispatch($unsearchableJob);
+        } else {
+            $unsearchableJob->handle();
         }
     }
 }

@@ -44,21 +44,10 @@ trait Searchable
     }
 
     /**
-     * Remove all instances of the model from the search index.
-     */
-    public static function removeAllFromSearch()
-    {
-    }
-
-    /**
      * Remove the given model instance from the search index.
      */
     public function unsearchable()
     {
-    }
-
-    public function get()
-    {
-        return parent::get();
+        SyncEngine::makeUnsearchable($this);
     }
 }

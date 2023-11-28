@@ -2,9 +2,12 @@
 
 namespace Clydescobidal\Larasearch;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class SearchBuilder extends EloquentBuilder
@@ -32,8 +35,8 @@ class SearchBuilder extends EloquentBuilder
         $searchableKeyName = $this->model->getKeyName();
         $cache = config('larasearch.cache') ? Cache::tags($searchableType) : null;
 
-        if ($cache && $cache->has($this->searchQuery)) {
-            $this->cachedData = $cache->get($this->searchQuery);
+        if ($cache) {
+            $this->cachedData = $cache->get($this->searchQuery, Collection::make([]));
 
             return $this;
         }
@@ -56,8 +59,20 @@ class SearchBuilder extends EloquentBuilder
 
     public function get($columns = ['*'])
     {
-        echo 'from cache';
-
         return $this->cachedData;
+    }
+
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        $perPage = $perPage ?: $this->model->getPerPage();
+        $perPage = 1;
+        $items = $this->get();
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
     }
 }

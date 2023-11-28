@@ -1,10 +1,17 @@
-# Very short description of the package
+# Larasearch
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/clydescobidal/larasearch.svg?style=flat-square)](https://packagist.org/packages/clydescobidal/larasearch)
 [![Total Downloads](https://img.shields.io/packagist/dt/clydescobidal/larasearch.svg?style=flat-square)](https://packagist.org/packages/clydescobidal/larasearch)
 ![GitHub Actions](https://github.com/clydescobidal/larasearch/actions/workflows/main.yml/badge.svg)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+The goal of this Laravel package is to offer fast FULLTEXT indexed searches. This is only relevant if you wish to include a basic search feature in your project. However, if your project has a large amount of data that needs to be searched and is frequently used, search engines like Typesense, ElasticSearch, Algolia, and similar ones are more appropriate.
+
+Search queries are executed on the searchable table to save your main table from the heavy search workload. 
+
+## Features
+
+- FULLTEXT index search
+- Cached results
 
 ## Installation
 
@@ -14,17 +21,32 @@ You can install the package via composer:
 composer require clydescobidal/larasearch
 ```
 
-## Usage
-
-```php
-// Usage description here
-```
-
-### Testing
-
+Publish the configuration file:
 ```bash
-composer test
+php artisan vendor:publish --provider="Clydescobidal\Larasearch\LarasearchServiceProvider"
 ```
+
+Run migration:
+```bash
+php artisan migrate
+```
+
+## Usage
+Add the `Clydescobidal\Larasearch\Searchable` trait to the model you would like to make searchable:
+```php
+<?php
+ 
+namespace App\Models;
+ 
+use Illuminate\Database\Eloquent\Model;
+use Clydescobidal\Larasearch\Searchable;
+ 
+class Post extends Model
+{
+    use Searchable;
+}
+```
+
 
 ### Changelog
 
@@ -41,12 +63,7 @@ If you discover any security related issues, please email cleidoscope@gmail.com 
 ## Credits
 
 -   [Clyde Escobidal](https://github.com/clydescobidal)
--   [All Contributors](../../contributors)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).

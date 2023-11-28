@@ -1,6 +1,6 @@
 {
     "name": "clydescobidal/larasearch",
-    "description": "A Laravel package for indexed search functionality",
+    "description": "A Laravel package that provides FULLTEXT index search functionality",
     "keywords": [
         "clydescobidal",
         "larasearch"
@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.0 || ^8.1 || ^8.2",
         "illuminate/support": "*"
     },
     "require-dev": {

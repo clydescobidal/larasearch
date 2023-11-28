@@ -11,7 +11,7 @@ class ModelObserver
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      */
-    public function saved(Model $model)
+    public function saved($model)
     {
         $model->searchable();
     }
@@ -21,8 +21,9 @@ class ModelObserver
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      */
-    public function deleted(Model $model)
+    public function deleted($model)
     {
+        $model->unsearchable();
     }
 
     /**
@@ -30,7 +31,7 @@ class ModelObserver
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      */
-    public function forceDeleted(Model $model)
+    public function forceDeleted($model)
     {
         $model->unsearchable();
     }
@@ -40,7 +41,8 @@ class ModelObserver
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      */
-    public function restored(Model $model)
+    public function restored($model)
     {
+        $model->searchable();
     }
 }
