@@ -58,10 +58,6 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
-
-If you discover any security related issues, please email cleidoscope@gmail.com instead of using the issue tracker.
-
 ## Credits
 
 -   [Clyde Escobidal](https://github.com/clydescobidal)
