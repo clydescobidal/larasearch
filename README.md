@@ -35,7 +35,7 @@ php artisan migrate
 ```
 
 ## Usage
-Add the `Clydescobidal\Larasearch\Searchable` trait to the model you would like to make searchable:
+Add the `Clydescobidal\Larasearch\Searchable` trait to the model you would like to make searchable. Models that are using this trait will be indexed in the searchable table whenever changes are made on the model.
 ```php
 <?php
  
@@ -49,6 +49,32 @@ class Post extends Model
     use Searchable;
 }
 ```
+
+Search for posts and chain query builder methods as normal:
+```php
+<?php
+
+$post= Post::search('my post title')->get();
+$posts = Post::search('search posts')->paginate();
+```
+
+Make model searchable or unsearchable:
+```php
+<?php
+
+$post= Post::find(1);
+$post->searchable(); // Adds this model to the search index
+
+$post= Post::find(2);
+$post->unsearchable(); // Removes this model from the search index
+```
+
+### Config
+| Property      | Type |  Default  |  Description |
+| ----------- |  ---- | ---| ---
+| table    |string|   searchable       | The table where the searchable indices are stored
+| cache   |boolean| true       | Enable caching of results
+| queue   |boolean| true        | Run searchable syncs in queue (recommended)
 
 
 ### Changelog
