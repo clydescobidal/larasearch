@@ -96,10 +96,6 @@ By default, search query results are cached. You can turn this off by setting th
 php artisan cache:clear --tags="App\Models\Post"
 ```
 
-### Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
