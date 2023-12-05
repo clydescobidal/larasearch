@@ -2,6 +2,7 @@
 
 namespace Clydescobidal\Larasearch;
 
+use Clydescobidal\Larasearch\Console\MakeModelsSearchable;
 use Illuminate\Support\ServiceProvider;
 
 class LarasearchServiceProvider extends ServiceProvider
@@ -17,6 +18,12 @@ class LarasearchServiceProvider extends ServiceProvider
 
         if (file_exists(config_path('larasearch.php'))) {
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        }
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                MakeModelsSearchable::class,
+            ]);
         }
     }
 

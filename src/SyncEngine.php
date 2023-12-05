@@ -11,7 +11,6 @@ class SyncEngine
     {
         $queue = config('larasearch.queue');
         $searchableJob = new MakeSearchable($model);
-
         if ($queue) {
             dispatch($searchableJob);
         } else {
