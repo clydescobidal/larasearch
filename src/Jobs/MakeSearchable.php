@@ -3,10 +3,10 @@
 namespace Clydescobidal\Larasearch\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class MakeSearchable implements ShouldQueue
 {
@@ -39,16 +39,18 @@ class MakeSearchable implements ShouldQueue
         $cache = config('larasearch.cache') ? Cache::tags($searchableType) : null;
 
         foreach ($this->model->toSearchableArray() as $column => $value) {
-            DB::table(config('larasearch.table'))->updateOrInsert(
-                [
-                    'searchable_type' => $searchableType,
-                    'searchable_id' => $searchableId,
-                    'column' => $column,
-                ],
-                [
-                    'value' => $value,
-                ]
-            );
+            if (trim($value)) {
+                DB::table(config('larasearch.table'))->updateOrInsert(
+                    [
+                        'searchable_type' => $searchableType,
+                        'searchable_id' => $searchableId,
+                        'column' => $column,
+                    ],
+                    [
+                        'value' => $value,
+                    ]
+                );
+            }
         }
 
         if ($cache) {
