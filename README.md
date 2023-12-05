@@ -69,6 +69,19 @@ $post= Post::find(2);
 $post->unsearchable(); // Removes this model from the search index
 ```
 
+### Commands
+You can run the command below if you want to make all your models searchable. Note that this will only work on models with `Clydescobidal\Larasearch\Searchable` trait. This is applicable when you first install the package and you want your existing models to be searchable, or when you want to do a batch reindex of a model.
+
+In this example, we will make all instances of `App\Models\Post` searchable.
+```bash
+php artisan make:searchable "App\Models\Post"
+```
+
+We can also do a batch unsearchable on a model.
+```bash
+php artisan make:unsearchable "App\Models\Post"
+```
+
 ### Config
 | Property      | Type |  Default  |  Description |
 | ----------- |  ---- | ---| ---
@@ -76,6 +89,12 @@ $post->unsearchable(); // Removes this model from the search index
 | cache   |boolean| true       | Enable caching of results
 | queue   |boolean| true        | Run searchable syncs in queue (recommended)
 
+
+### Cache
+By default, search query results are cached. You can turn this off by setting the `cache` property in the configuration. In any case you want to clear the cached results, you can run the artisan command:
+```bash
+php artisan cache:clear --tags="App\Models\Post"
+```
 
 ### Changelog
 

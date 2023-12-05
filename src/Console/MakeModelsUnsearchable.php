@@ -6,21 +6,21 @@ use Clydescobidal\Larasearch\Searchable;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 
-class MakeModelsSearchable extends Command
+class MakeModelsUnsearchable extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:searchable {model}';
+    protected $signature = 'make:unsearchable {model}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Make all instances of model searchable';
+    protected $description = 'Make all instances of model unsearchable';
 
     /**
      * Execute the console command.
