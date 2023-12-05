@@ -38,6 +38,10 @@ class MakeSearchable implements ShouldQueue
         $searchableId = $this->model->getKey();
         $cache = config('larasearch.cache') ? Cache::tags($searchableType) : null;
 
+        // Make unsearchable before making searchable
+        $unsearchable = new MakeUnsearchable($this->model);
+        $unsearchable->handle();
+
         foreach ($this->model->toSearchableArray() as $column => $value) {
             if (trim($value)) {
                 DB::table(config('larasearch.table'))->updateOrInsert(
