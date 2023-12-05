@@ -21,6 +21,8 @@ class SearchBuilder extends EloquentBuilder
 
     public Builder $builder;
 
+    public int $limit = 0;
+
     public function __construct(Model $model, string $searchQuery)
     {
         $this->query = DB::table($model->getTable());
@@ -43,13 +45,14 @@ class SearchBuilder extends EloquentBuilder
     public function get($columns = ['*'])
     {
         $results = Collection::make();
+        $cacheKey = "{$this->searchQuery}:{$this->limit}";
 
-        if ($this->cache && $this->cache->has($this->searchQuery)) {
-            $results = $this->cache->get($this->searchQuery);
+        if ($this->cache && $this->cache->has($cacheKey)) {
+            $results = $this->cache->get($cacheKey);
         } else {
             $results = $this->builder->get();
             if ($this->cache) {
-                $this->cache->put($this->searchQuery, $results);
+                $this->cache->put($cacheKey, $results);
             }
         }
 
@@ -76,5 +79,21 @@ class SearchBuilder extends EloquentBuilder
             'path' => Paginator::resolveCurrentPath(),
             'pageName' => $pageName,
         ]);
+    }
+
+    public function limit(int $limit)
+    {
+        $this->limit = $limit;
+        $this->builder->limit($this->limit);
+
+        return $this;
+    }
+
+    public function take(int $limit)
+    {
+        $this->limit = $limit;
+        $this->builder->limit($this->limit);
+
+        return $this;
     }
 }
