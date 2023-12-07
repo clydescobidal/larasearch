@@ -26,13 +26,17 @@ class SearchBuilder extends EloquentBuilder
     public function __construct(Model $model, string $searchQuery)
     {
         $this->model = $model;
-        $this->searchQuery = $searchQuery;
+        $this->searchQuery = trim($searchQuery);
         $this->cache = config('larasearch.cache') ? Cache::tags($this->model::class) : null;
         $this->builder = DB::table(config('larasearch.table'));
     }
 
     public function search() : EloquentBuilder
     {
+        if (strlen($this->searchQuery) === 0) {
+            return $this;
+        }
+
         $this->builder = $this->builder->select(['searchable_id', 'column', 'value'])
             ->where('searchable_type', $this->model::class);
 
@@ -50,14 +54,16 @@ class SearchBuilder extends EloquentBuilder
     public function get($columns = ['*'])
     {
         $results = Collection::make();
-        $cacheKey = "{$this->searchQuery}:{$this->limit}";
+        if (strlen($this->searchQuery) > 0) {
+            $cacheKey = "{$this->searchQuery}:{$this->limit}";
 
-        if ($this->cache && $this->cache->has($cacheKey)) {
-            $results = $this->cache->get($cacheKey);
-        } else {
-            $results = $this->builder->get();
-            if ($this->cache) {
-                $this->cache->put($cacheKey, $results);
+            if ($this->cache && $this->cache->has($cacheKey)) {
+                $results = $this->cache->get($cacheKey);
+            } else {
+                $results = $this->builder->get();
+                if ($this->cache) {
+                    $this->cache->put($cacheKey, $results);
+                }
             }
         }
 
