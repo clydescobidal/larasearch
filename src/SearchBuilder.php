@@ -43,7 +43,7 @@ class SearchBuilder extends EloquentBuilder
         if (strlen($this->searchQuery) >= 3) {
             $this->builder = $this->builder->whereRaw("MATCH(value) AGAINST ('*{$this->searchQuery}*' IN BOOLEAN MODE)");
         } else {
-            $this->builder = $this->builder->where('value', 'LIKE', "%{$this->searchQuery}%");
+            $this->builder = $this->builder->where('value', 'LIKE', "{$this->searchQuery}%");
         }
 
         $this->builder = $this->builder->distinct();
