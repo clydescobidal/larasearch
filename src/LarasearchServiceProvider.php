@@ -3,6 +3,7 @@
 namespace Clydescobidal\Larasearch;
 
 use Clydescobidal\Larasearch\Console\MakeModelsSearchable;
+use Clydescobidal\Larasearch\Console\MakeModelsUnsearchable;
 use Illuminate\Support\ServiceProvider;
 
 class LarasearchServiceProvider extends ServiceProvider
@@ -23,6 +24,7 @@ class LarasearchServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 MakeModelsSearchable::class,
+                MakeModelsUnsearchable::class,
             ]);
         }
     }

@@ -40,7 +40,7 @@ class MakeModelsUnsearchable extends Command
 
         $model::chunk(100, function ($searchables) :void {
             foreach ($searchables as $searchable) {
-                $searchable->searchable();
+                $searchable->unsearchable();
             }
         });
 

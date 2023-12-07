@@ -35,9 +35,15 @@ class SearchBuilder extends EloquentBuilder
     public function search() : EloquentBuilder
     {
         $this->builder = $this->builder->select(['searchable_id', 'column', 'value'])
-            ->where('searchable_type', $this->model::class)
-            ->whereRaw("MATCH(value) AGAINST ('*{$this->searchQuery}*' IN BOOLEAN MODE)")
-            ->distinct();
+            ->where('searchable_type', $this->model::class);
+
+        if (strlen($this->searchQuery) >= 3) {
+            $this->builder = $this->builder->whereRaw("MATCH(value) AGAINST ('*{$this->searchQuery}*' IN BOOLEAN MODE)");
+        } else {
+            $this->builder = $this->builder->where('value', 'LIKE', "%{$this->searchQuery}%");
+        }
+
+        $this->builder = $this->builder->distinct();
 
         return $this;
     }
