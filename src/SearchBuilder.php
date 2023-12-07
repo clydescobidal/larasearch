@@ -25,7 +25,6 @@ class SearchBuilder extends EloquentBuilder
 
     public function __construct(Model $model, string $searchQuery)
     {
-        $this->query = DB::table($model->getTable());
         $this->model = $model;
         $this->searchQuery = $searchQuery;
         $this->cache = config('larasearch.cache') ? Cache::tags($this->model::class) : null;
